@@ -44,7 +44,10 @@ public class ContainerMessageRequest implements Serializable {
  	 * 装卸货时间
  	 */
  	private String landingDate;
- 	
+	/**
+	 * 满足按照被举报处理条目的举报数目
+	 */
+	private Integer reportNum;
 
 	/**
 	 * 当前页面
@@ -100,6 +103,12 @@ public class ContainerMessageRequest implements Serializable {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
- 	
- 	
+
+	public Integer getReportNum() {
+		return reportNum;
+	}
+
+	public void setReportNum(Integer reportNum) {
+		this.reportNum = reportNum;
+	}
 }

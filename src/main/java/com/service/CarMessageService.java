@@ -48,7 +48,7 @@ public interface CarMessageService {
 	 *            目的地
 	 * @return
 	 */
-	public BaseResponse<List<CarMessageResponse>> findCarByStartAndEndPlace(String carMode,String startPlace,String endPlace,String carType,String loadTime,int currentPage,int pageSize);
+	public BaseResponse<List<CarMessageResponse>> findCarByStartAndEndPlace(String carMode,String startPlace,String endPlace,String carType,String loadTime,Integer reportNum,int currentPage,int pageSize);
 	/**
 	 * 删除车源信息
 	 *

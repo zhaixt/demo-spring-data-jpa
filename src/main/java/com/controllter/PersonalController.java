@@ -36,6 +36,11 @@ public class PersonalController {
 
     @Autowired
     public PersonalCollectionService personalCollectionService;
+
+    /**
+     * 根据电话号码分页查询个人发布的货物信息
+     * @return
+     */
     @RequestMapping(value = "/product/phoneNum/{phoneNum}/currentPage/{currentPage}/pageSize/{pageSize}")
     public Page<ProductMessage> queryProducts(@PathVariable String phoneNum,@PathVariable int currentPage,@PathVariable int pageSize) {
        return productMessageService.findByPhoneNum(phoneNum,currentPage,pageSize);
@@ -47,8 +52,7 @@ public class PersonalController {
     }
 
     /**
-     * 根据电话号码分页查询集装箱信息
-     *
+     * 根据电话号码分页查询个人发布的集装箱信息
      * @return
      */
     @RequestMapping(value = "/container/phoneNum/{phoneNum}/currentPage/{currentPage}/pageSize/{pageSize}")

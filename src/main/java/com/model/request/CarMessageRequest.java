@@ -45,6 +45,10 @@ public class CarMessageRequest implements Serializable {
 	private String loadTime;
 
 	/**
+	 * 满足按照被举报处理条目的举报数目
+	 */
+	private Integer reportNum;
+	/**
 	 * 当前页面
 	 */
 	private int currentPage;
@@ -111,5 +115,11 @@ public class CarMessageRequest implements Serializable {
 		this.carType = carType;
 	}
 
+	public Integer getReportNum() {
+		return reportNum;
+	}
 
+	public void setReportNum(Integer reportNum) {
+		this.reportNum = reportNum;
+	}
 }

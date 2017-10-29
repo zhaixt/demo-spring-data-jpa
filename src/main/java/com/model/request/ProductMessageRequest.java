@@ -44,6 +44,11 @@ public class ProductMessageRequest implements Serializable {
 	private String carType;
 
 	/**
+	 * 满足按照被举报处理条目的举报数目
+	 */
+	private Integer reportNum;
+
+	/**
 	 * 当前页面
 	 */
 	private int currentPage;
@@ -112,7 +117,11 @@ public class ProductMessageRequest implements Serializable {
 		this.productMode = productMode;
 	}
 
-	
-	
+	public Integer getReportNum() {
+		return reportNum;
+	}
 
+	public void setReportNum(Integer reportNum) {
+		this.reportNum = reportNum;
+	}
 }

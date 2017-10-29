@@ -92,7 +92,7 @@ public class ProductMessageServiceImpl implements ProductMessageService {
 	
 	@Override
 	public Page<ProductMessage> findByPage(final String productMode,final String departurePlace,
-			final String destinationPlace,final String carType, final String loadDate, int currentPage, int pageSize) {
+			final String destinationPlace,final String carType, final String loadDate, final Integer reportNum, int currentPage, int pageSize) {
 		Sort sort = new Sort(Direction.DESC, "loadDate");  
         PageRequest pageRequest =  new PageRequest(currentPage, pageSize, sort);
         return productInfoRepository.findAll(new Specification<ProductMessage>() {
@@ -116,6 +116,9 @@ public class ProductMessageServiceImpl implements ProductMessageService {
 				}
 				if (!StringUtils.isEmpty(carType)) {
 					predicates.add(builder.equal(root.get("carType"), carType));
+				}
+				if(null != reportNum && reportNum > 0){
+					predicates.add(builder.gt(root.get("reportNum").as(Integer.class), reportNum-1));
 				}
 				query.where(predicates.toArray(new Predicate[predicates.size()]));
 				return null;

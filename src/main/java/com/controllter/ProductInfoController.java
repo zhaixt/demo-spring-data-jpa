@@ -52,11 +52,12 @@ public class ProductInfoController implements Serializable {
 		String endPlace = productMessageRequest.getDestinationPlace();
 		String loadDate = productMessageRequest.getLoadDate();
 		String carType = productMessageRequest.getCarType();
+		Integer reportNum = productMessageRequest.getReportNum();
 		int currentPage = productMessageRequest.getCurrentPage();
 		
 		int pageSize = productMessageRequest.getPageSize();
 //		return productMessageService.findByDeparturePlaceAndDestinationPlaceAndLoadTime(startPlace,endPlace,loadDate,currentPage,pageSize);
-		return productMessageService.findByPage(productMode, startPlace, endPlace, carType, loadDate, currentPage, pageSize);
+		return productMessageService.findByPage(productMode, startPlace, endPlace, carType, loadDate,reportNum,currentPage, pageSize);
 //		return null;
 	}
 

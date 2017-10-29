@@ -44,9 +44,10 @@ public class ContainerMessageController implements Serializable {
 		String transportType = containerMessageRequest.getTransportType();
 		String landingPlace = containerMessageRequest.getLandingPlace();
 		String landingDate = containerMessageRequest.getLandingDate();
+		Integer reportNum = containerMessageRequest.getReportNum();
 		int currentPage = containerMessageRequest.getCurrentPage();
 		int pageSize = containerMessageRequest.getPageSize();
-		return containerMessageService.findByPage(containerMode, port, transportType, landingPlace, landingDate, currentPage, pageSize);
+		return containerMessageService.findByPage(containerMode, port, transportType, landingPlace, landingDate,reportNum, currentPage, pageSize);
 //		return null;
 	}
 

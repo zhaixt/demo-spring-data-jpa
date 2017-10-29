@@ -183,7 +183,7 @@ public class CarMessageServiceImpl implements CarMessageService {
 	}
 
 	@Override
-	public BaseResponse<List<CarMessageResponse>> findCarByStartAndEndPlace(String carMode,String startPlace,String endPlace,String carType,String loadTime,int currentPage,int pageSize) {
+	public BaseResponse<List<CarMessageResponse>> findCarByStartAndEndPlace(String carMode,String startPlace,String endPlace,String carType,String loadTime,Integer reportNum,int currentPage,int pageSize) {
 		BaseResponse<List<CarMessageResponse>> response = new BaseResponse<>(Boolean.TRUE);
 		List<CarMessageResponse> carMessageResponseList = new ArrayList<>();
 		try {
@@ -217,6 +217,11 @@ public class CarMessageServiceImpl implements CarMessageService {
 			if(!StringUtils.isEmpty(carType)){
 				nativeSqlBf.append(" AND car_type = '"+carType+"'");
 			}
+
+			if(null != reportNum && reportNum > 0){
+				nativeSqlBf.append(" AND report_num >= '"+reportNum+"'");
+			}
+
 			nativeSqlBf.append(" ORDER BY car_msg.load_time DESC");
 			if(!StringUtils.isEmpty(currentPage)&&!StringUtils.isEmpty(currentPage)){
 				nativeSqlBf.append( " limit "+currentPage*pageSize+","+pageSize);
@@ -227,7 +232,9 @@ public class CarMessageServiceImpl implements CarMessageService {
 			List<CarMessage> carMessagesList = commonRepository.findItems(nativeSqlBf.toString(), CarMessage.class);
 			for(CarMessage carMessage:carMessagesList){
 				CarMessageResponse carMessageResponse = new CarMessageResponse();
-
+				if(carMessage.getId() != null){
+					carMessageResponse.setId(carMessage.getId());
+				}
 				if(carMessage.getUserId() != 0){
 					carMessageResponse.setUserId(carMessage.getUserId());
 				}
@@ -258,7 +265,9 @@ public class CarMessageServiceImpl implements CarMessageService {
 				if(carMessage.getDetailInfo() != null){
 					carMessageResponse.setDetailInfo(carMessage.getDetailInfo());
 				}
-				
+				if(carMessage.getReportNum() != null){
+					carMessageResponse.setReportNum(carMessage.getReportNum());
+				}
 				if(carMessage.getRoutes() != null){
 					if(carMessage.getRoutes().size() > 0){
 						List<RoadRouteResponse> roadRouteResponseList = new ArrayList<RoadRouteResponse>();

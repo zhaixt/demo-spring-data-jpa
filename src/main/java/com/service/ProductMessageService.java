@@ -83,7 +83,7 @@ public interface ProductMessageService {
 	 * @return
 	 */
 	public Page<ProductMessage> findByPage(String productMode,String departurePlace,
-			String destinationPlace, String carType,String loadDate, int currentPage, int pageSize);
+			String destinationPlace, String carType,String loadDate,Integer reportNum, int currentPage, int pageSize);
 
 	/**
 	 * 举报货源信息

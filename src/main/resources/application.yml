@@ -3,11 +3,11 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://118.178.141.184:3306/qingdao_shipping_service
-    #url: jdbc:mysql://localhost:3306/qingdao_shipping_service
+#    url: jdbc:mysql://118.178.141.184:3306/qingdao_shipping_service
+    url: jdbc:mysql://localhost:3306/qingdao_shipping_service
     username: root
-    #password: 135555
-    password: shipping
+    password: 135555    #native
+#    password: shipping
     
   jpa:
     show-sql: true

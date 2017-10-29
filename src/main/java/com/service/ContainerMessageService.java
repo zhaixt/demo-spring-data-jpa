@@ -31,7 +31,7 @@ public interface ContainerMessageService {
 	 * @return
 	 */
 	public Page<ContainerMessage> findByPage(String containerMode,String port,
-			String transportType, String landingPlace,String landingDate, int currentPage, int pageSize);
+			String transportType, String landingPlace,String landingDate,Integer reportNum, int currentPage, int pageSize);
 
 
 	/**

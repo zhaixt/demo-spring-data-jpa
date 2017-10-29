@@ -45,7 +45,7 @@ public class ContainerMessageServiceImpl implements ContainerMessageService {
 	
 	@Override
 	 public Page<ContainerMessage> findByPage(final String containerMode,final String port,
-											  final String transportType,final String landingPlace, final String landingDate, int currentPage, int pageSize) {
+											  final String transportType,final String landingPlace, final String landingDate,final Integer reportNum, int currentPage, int pageSize) {
 		Sort sort = new Sort(Direction.DESC, "landingDate");
 		PageRequest pageRequest =  new PageRequest(currentPage, pageSize, sort);
 		return containerInfoRepository.findAll(new Specification<ContainerMessage>(){
@@ -69,6 +69,9 @@ public class ContainerMessageServiceImpl implements ContainerMessageService {
 				}
 				if(!StringUtils.isEmpty(landingDate)){
 					predicates.add(builder.equal(root.get("landingDate"),landingDate ));
+				}
+				if(null != reportNum && reportNum > 0){
+					predicates.add(builder.gt(root.get("reportNum").as(Integer.class), reportNum-1));
 				}
 				query.where(predicates.toArray(new Predicate[predicates.size()]));
 				return null;

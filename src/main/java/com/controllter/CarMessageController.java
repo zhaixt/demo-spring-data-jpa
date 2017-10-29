@@ -77,9 +77,10 @@ public class CarMessageController implements Serializable {
 		String carMode = queryCarMessageRequest.getCarMode();
 		String carType = queryCarMessageRequest.getCarType();
 		String loadTime = queryCarMessageRequest.getLoadTime();
+		Integer reportNum = queryCarMessageRequest.getReportNum();
 		int currentPage = queryCarMessageRequest.getCurrentPage();
 		int pageSize = queryCarMessageRequest.getPageSize(); 
-		BaseResponse<List<CarMessageResponse>> result = carMessageService.findCarByStartAndEndPlace(carMode,startPlace, endPlace,carType,loadTime,currentPage,pageSize);
+		BaseResponse<List<CarMessageResponse>> result = carMessageService.findCarByStartAndEndPlace(carMode,startPlace, endPlace,carType,loadTime,reportNum,currentPage,pageSize);
 		
 		return result;
 	}

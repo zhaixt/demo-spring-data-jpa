@@ -90,7 +90,6 @@ public class PersonalCollectionServiceImpl implements PersonalCollectionService{
 			idList.add(personalCollection.getCollectOptionId());
 		}
 		final PageRequest pageRequest = new PageRequest(personalCollectionRequest.getCurrentPage(), personalCollectionRequest.getPageSize(), sort);
-
 		return productInfoRepository.findAll(new Specification<ProductMessage>() {
 
 			@Override
@@ -107,8 +106,11 @@ public class PersonalCollectionServiceImpl implements PersonalCollectionService{
 						in.value(iterator.next());
 					}
 					predicates.add(in);
+				}else{
+					CriteriaBuilder.In in = builder.in(root.get("id"));
+					in.value(-1);//就是为了查空
+					predicates.add(in);
 				}
-
 				query.where(predicates.toArray(new Predicate[predicates.size()]));
 				return null;
 			}
@@ -269,7 +271,6 @@ public class PersonalCollectionServiceImpl implements PersonalCollectionService{
 				StringBuffer nativeSqlBf = new StringBuffer();
 				nativeSqlBf.append("select car_msg.* from car_message car_msg ");
 
-
 				nativeSqlBf.append(" WHERE 1=1 ");
 
 				nativeSqlBf.append(" and  id  in( ");
@@ -291,7 +292,9 @@ public class PersonalCollectionServiceImpl implements PersonalCollectionService{
 				List<CarMessage> carMessagesList = commonRepository.findItems(nativeSqlBf.toString(), CarMessage.class);
 				for (CarMessage carMessage : carMessagesList) {
 					CarMessageResponse carMessageResponse = new CarMessageResponse();
-
+					if(carMessage.getId() != null){
+						carMessageResponse.setId(carMessage.getId());
+					}
 					if (carMessage.getUserId() != 0) {
 						carMessageResponse.setUserId(carMessage.getUserId());
 					}
@@ -392,6 +395,10 @@ public class PersonalCollectionServiceImpl implements PersonalCollectionService{
 					while (iterator.hasNext()) {
 						in.value(iterator.next());
 					}
+					predicates.add(in);
+				}else{
+					CriteriaBuilder.In in = builder.in(root.get("id"));
+					in.value(-1);//就是为了查空
 					predicates.add(in);
 				}
 

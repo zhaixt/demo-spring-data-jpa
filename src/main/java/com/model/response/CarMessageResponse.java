@@ -72,7 +72,7 @@ public class CarMessageResponse implements Serializable {
 	 */
 	private String detailInfo;
 
-
+	private Long reportNum;
 	/**
 	 * 中转地（包括出发地和目的地）
 	 */
@@ -187,7 +187,11 @@ public class CarMessageResponse implements Serializable {
 		this.phoneNum = phoneNum;
 	}
 
-	
+	public Long getReportNum() {
+		return reportNum;
+	}
 
-
+	public void setReportNum(Long reportNum) {
+		this.reportNum = reportNum;
+	}
 }
