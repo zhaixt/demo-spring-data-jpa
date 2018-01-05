@@ -3,80 +3,81 @@
 <configuration debug="false">
 	<include resource="org/springframework/boot/logging/logback/base.xml"/>
 	<property name="LOG_PATH" value="${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}" />
-	<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
-	
-	<appender name="ALL_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_PATH}/error.log</file>
-		<!-- filter,仅保留ERROR级别的日志 -->
-		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
-			<level>ERROR</level>
-			<onMatch>ACCEPT</onMatch>
-			<onMismatch>DENY</onMismatch>
+
+	<property name="log.dir" value="/alidata1/admin/shipping" />
+	<!-- <property name="log.dir" value="/Users/apple/logs/interstellar" /> -->
+
+	<property name="projectname" value="shipping" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<encoder charset="UTF-8">
+			<pattern>%d [%thread] %-5p [%c] [%F:%L] - %message%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="infoAppender"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/logs/${HOSTNAME}_${projectname}.log</file>
+		<!--	<filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter> -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
 		</filter>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/error.log.%d{yyyy-MM-dd}
+			<fileNamePattern>${log.dir}/logs/${HOSTNAME}_${projectname}-%d{yyyy-MM-dd}.log
 			</fileNamePattern>
 			<maxHistory>30</maxHistory>
-			<cleanHistoryOnStart>true</cleanHistoryOnStart>
 		</rollingPolicy>
-		<encoder charset="UTF-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		<encoder charset="UTF-8">
+			<pattern>%d [%thread] %-5p [%c] [%F:%L] [trace=%X{X-Trace-Id:-},span=%X{X-Span-Id:-},parent=%X{X-Parent-Id:-},name=%X{X-Span-Name:-},app=%X{appname:-},begintime=%X{begintime:-},endtime=%X{fin-X1-time:-}] - %message%n</pattern>
 		</encoder>
 	</appender>
-	
-	<appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/za-billow.log</file>
-        <!-- 可让每天产生一个日志文件，最多 30 个，自动回滚 -->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/za-billow.log.%d{yyyy-MM-dd}</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder charset="UTF-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <!-- 异步输出 -->
-	<appender name="RollingFileASYNC" class="ch.qos.logback.classic.AsyncAppender">
-		<!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-		<discardingThreshold>0</discardingThreshold>
-		<!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
-		<queueSize>2048</queueSize>
-		<!-- 添加附加的appender,最多只能添加一个 -->
-		<appender-ref ref="RollingFile" />
-	</appender>  
-	
-	<appender name="SERVICE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_PATH}/za-billow-service.log</file>
-		<!-- 可让每天产生一个日志文件 -->
+
+	<appender name="errorAppender"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/logs/${HOSTNAME}_${projectname}_error.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>>${LOG_PATH}/za-billow-service.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>${log.dir}/logs/${HOSTNAME}_${projectname}_error-%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
 		</rollingPolicy>
-		<encoder charset="UTF-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		<encoder charset="UTF-8">
+			<pattern>%d [%thread] %-5p [%c] [%F:%L] [trace=%X{X-Trace-Id:-},span=%X{X-Span-Id:-},parent=%X{X-Parent-Id:-},name=%X{X-Span-Name:-},app=%X{appname:-},begintime=%X{begintime:-},endtime=%X{fin-X1-time:-}] - %message%n</pattern>
 		</encoder>
 	</appender>
 
-	<!-- 异步输出配置 -->
-	<appender name="SERVICE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-		<!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-		<discardingThreshold>0</discardingThreshold>
-		<!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
-		<queueSize>2048</queueSize>
-		<!-- 添加附加的appender,最多只能添加一个 -->
-		<appender-ref ref="SERVICE" />
-	</appender>
-
-	<!-- logger配置 -->
-	<logger name="com.service.impl" additivity="false" level="INFO">
-		<appender-ref ref="SERVICE_ASYNC" />
+	<logger name="org.apache">
+		<level value="INFO" />
+		<appender-ref ref="errorAppender" />
+		<appender-ref ref="infoAppender" />
 	</logger>
-	
+
+	<logger name="org.springframework">
+		<level value="INFO" />
+		<appender-ref ref="errorAppender" />
+		<appender-ref ref="infoAppender" />
+	</logger>
+	<logger name="com.zhongan">
+		<level value="INFO" />
+		<appender-ref ref="errorAppender" />
+		<appender-ref ref="infoAppender" />
+	</logger>
+
+	<logger name="com.netflix">
+		<level value="INFO" />
+		<appender-ref ref="errorAppender" />
+		<appender-ref ref="infoAppender" />
+	</logger>
+
+
 	<root>
 		<level value="INFO" />
-		<appender-ref ref="ALL_ERROR" />
-		<appender-ref ref="RollingFileASYNC" />
-		<appender-ref ref="SERVICE_ASYNC" />
+		<appender-ref ref="STDOUT" />
 	</root>
-
 </configuration>
